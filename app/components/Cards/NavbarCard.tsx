@@ -1,6 +1,17 @@
+import signout from "@/firebase/auth/signout";
 import React from "react";
 
 const NavbarCard = () => {
+  const handleLogout = async () => {
+    const { result, error } = await signout();
+    if (error) {
+      return console.log(error);
+    }
+
+    // else successful
+    console.log(result);
+  };
+
   return (
     <div className="navbar bg-base-200 rounded-md">
       <div className="flex-1">
@@ -37,7 +48,7 @@ const NavbarCard = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           </ul>
         </div>
