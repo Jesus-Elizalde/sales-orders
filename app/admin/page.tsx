@@ -6,6 +6,7 @@ import addData from "@/firebase/firestone/addData";
 
 function Page() {
   const { user } = useAuthContext();
+  console.log("🚀 ~ file: page.tsx:9 ~ Page ~ user:", user);
   const router = useRouter();
 
   useEffect(() => {
