@@ -28,7 +28,7 @@ function Page() {
         <div className="w-1/2"></div>
         <div className="w-1/2 flex justify-center items-center bg-base-300">
           <div className="w-96 flex flex-col items-center">
-            <h1 className="text-2xl font-bold">Create an account</h1>
+            <h1 className="text-2xl font-bold">Login into your account</h1>
             <p>Enter your Email below to Login into your account</p>
 
             <form onSubmit={handleForm} className="w-full mt-2">

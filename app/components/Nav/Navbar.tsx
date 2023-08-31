@@ -1,7 +1,11 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const Navbar = () => {
+  const pathName = usePathname();
+
   return (
     <div className="navbar">
       <div className="navbar-start">
@@ -64,9 +68,15 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link href="/signup" className="btn btn-primary">
-          Start For Free
-        </Link>
+        {pathName === "/signin" ? (
+          <Link href="/signup" className="btn btn-primary">
+            Sign Up
+          </Link>
+        ) : (
+          <Link href="/signin" className="btn btn-primary">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );
