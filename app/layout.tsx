@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Navbar, SideNavBar } from "./components";
+import { CurrentNavbar } from "./components";
 import { AuthContextProvider } from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,12 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body className={inter.className}>
         <AuthContextProvider>
           <main>
-            {/* <Navbar /> */}
-            <SideNavBar>{children}</SideNavBar>
+            <CurrentNavbar>{children}</CurrentNavbar>
           </main>
         </AuthContextProvider>
       </body>

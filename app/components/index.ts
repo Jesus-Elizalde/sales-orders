@@ -1,5 +1,4 @@
-import Navbar from "./Nav/Navbar";
+import CurrentNavbar from "./Nav/CurrentNavbar";
 import SplashMainSection from "./Sections/SplashMainSection";
-import SideNavBar from "./Nav/SideNavBar";
 
-export { Navbar, SideNavBar, SplashMainSection };
+export { CurrentNavbar, SplashMainSection };
