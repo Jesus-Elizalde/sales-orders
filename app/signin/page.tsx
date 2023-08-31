@@ -29,7 +29,7 @@ function Page() {
         <div className="w-1/2 flex justify-center items-center bg-base-300">
           <div className="w-96 flex flex-col items-center">
             <h1 className="text-2xl font-bold">Create an account</h1>
-            <p>Enter your Email below to create your account</p>
+            <p>Enter your Email below to Login into your account</p>
 
             <form onSubmit={handleForm} className="w-full mt-2">
               <div className="flex flex-col gap-4 w-full">
@@ -52,7 +52,7 @@ function Page() {
                   placeholder="password"
                 />
                 <button className="btn w-full btn-primary" type="submit">
-                  Sign In with Email
+                  Login with Email
                 </button>
               </div>
             </form>

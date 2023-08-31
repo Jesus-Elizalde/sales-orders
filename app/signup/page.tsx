@@ -2,6 +2,7 @@
 import React, { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import signUp from "@/firebase/auth/signup";
+import { FcGoogle } from "react-icons/fc";
 
 function Page() {
   const [email, setEmail] = React.useState("");
@@ -22,36 +23,53 @@ function Page() {
     return router.push("/admin");
   };
   return (
-    <div className="wrapper">
-      <div className="form-wrapper">
-        <h1 className="mt-60 mb-30">Sign up</h1>
-        <form onSubmit={handleForm} className="form">
-          <label htmlFor="email">
-            <p>Email</p>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              type="email"
-              name="email"
-              id="email"
-              placeholder="example@mail.com"
-            />
-          </label>
-          <label htmlFor="password">
-            <p>Password</p>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              type="password"
-              name="password"
-              id="password"
-              placeholder="password"
-            />
-          </label>
-          <button type="submit">Sign up</button>
-        </form>
+    <>
+      <div className="flex h-[90vh]">
+        <div className="w-1/2"></div>
+        <div className="w-1/2 flex justify-center items-center bg-base-300">
+          <div className="w-96 flex flex-col items-center">
+            <h1 className="text-2xl font-bold">Create an account</h1>
+            <p>Enter your Email below to create your account</p>
+
+            <form onSubmit={handleForm} className="w-full mt-2">
+              <div className="flex flex-col gap-4 w-full">
+                <input
+                  type="email"
+                  className="input input-bordered w-full input-sm"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  name="email"
+                  id="email"
+                  placeholder="example@mail.com"
+                />
+                <input
+                  type="password"
+                  className="input input-bordered w-full input-sm"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  name="password"
+                  id="password"
+                  placeholder="password"
+                />
+                <button className="btn w-full btn-primary" type="submit">
+                  Sign In with Email
+                </button>
+              </div>
+            </form>
+            <div className="divider uppercase">Or Continue with</div>
+            <button className="btn w-full">
+              <FcGoogle />
+              Google
+            </button>
+            <p>By clicking continue, you agree to our</p>
+            <p>
+              <span className="underline">Terms of Service</span> and{" "}
+              <span className="underline">Privacy Policy</span>.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

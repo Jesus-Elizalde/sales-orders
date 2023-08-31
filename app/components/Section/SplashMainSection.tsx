@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const SplashMainSection = () => {
@@ -15,7 +16,9 @@ const SplashMainSection = () => {
       </p>
       <div className="flex gap-3">
         <button className="btn ">Demo</button>
-        <button className="btn btn-primary ">Get Started</button>
+        <Link href="/signup" className="btn btn-primary">
+          Get Started
+        </Link>
       </div>
       <div className="mockup-window border bg-base-300 w-[33rem] h-[22rem]">
         <div className="flex justify-center px-4 py-16 h-full bg-base-200">
