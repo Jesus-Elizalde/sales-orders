@@ -1,6 +1,6 @@
 "use client";
 import addCustomerData, {
-  CustomerProps,
+  AddCustomerProps,
 } from "@/firebase/firestone/customers/addCustomer";
 import React, { useState } from "react";
 import { GrAdd } from "react-icons/gr";

@@ -1,7 +1,7 @@
 import firebase_app from "@/firebase/config";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-export type CustomerProps = {
+export type AddCustomerProps = {
   firstName: string;
   lastName: string;
   email: string | null;
@@ -17,7 +17,7 @@ export type CustomerProps = {
 };
 
 const db = getFirestore(firebase_app);
-export default async function addCustomerData(data: CustomerProps) {
+export default async function addCustomerData(data: AddCustomerProps) {
   let result = null;
   let error = null;
 

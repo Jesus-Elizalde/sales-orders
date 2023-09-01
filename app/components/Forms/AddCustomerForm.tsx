@@ -1,40 +1,26 @@
 import addCustomerData, {
-  CustomerProps,
+  AddCustomerProps,
 } from "@/firebase/firestone/customers/addCustomer";
+import { error } from "console";
 import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type AddCustomerFormProps = {
   handleModal: () => void;
 };
 
 const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [street, setStreet] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [state, setState] = useState<string>("");
-  const [postalCode, setPostalCode] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
-  const [status, setStatus] = useState<"active" | "inactive">("active");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddCustomerProps>();
 
-  const handleAddCustomer = async ({
-    firstName,
-    lastName,
-    address,
-    email,
-    phone,
-    status,
-  }: CustomerProps) => {
-    const { result, error } = await addCustomerData({
-      firstName,
-      lastName,
-      email,
-      phone,
-      address,
-      status,
-    });
+  const onSubmit: SubmitHandler<AddCustomerProps> = (data: AddCustomerProps) =>
+    handleAddCustomer(data);
+
+  const handleAddCustomer = async (data: AddCustomerProps) => {
+    const { result, error } = await addCustomerData(data);
     if (error) {
       return console.log(error);
     }
@@ -44,88 +30,117 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
   return (
     <div>
       <h1>Add Customer</h1>
-      <div className="flex gap-3">
-        <div className="flex flex-col gap-3">
-          <input
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            type="text"
-            placeholder="First Name"
-            className="input input-bordered w-full "
-          />
-          <input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            type="text"
-            placeholder="Phone"
-            className="input input-bordered w-full "
-          />
-          <input
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-            type="text"
-            placeholder="Street"
-            className="input input-bordered w-full "
-          />
-          <input
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            type="city"
-            placeholder="State"
-            className="input input-bordered w-full "
-          />
+      <p>Fill out the form below to add a new customer.</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">First Name:</span>
+              {errors.firstName && (
+                <span className="label-text-alt">Required</span>
+              )}
+            </label>
+            <input
+              {...register("firstName", { required: true })}
+              className={`input input-bordered w-full ${
+                errors.firstName?.type && "input-error"
+              }`}
+            />
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Last Name:</span>
+              {errors.lastName && (
+                <span className="label-text-alt">Required</span>
+              )}
+            </label>
+            <input
+              {...register("lastName", { required: true })}
+              className={`input input-bordered w-full ${
+                errors.lastName?.type && "input-error"
+              }`}
+            />
+          </div>
+
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Phone:</span>
+            </label>
+            <input
+              {...register("phone")}
+              className={`input input-bordered w-full ${
+                errors.phone?.type && "input-error"
+              }`}
+            />
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Email:</span>
+            </label>
+            <input
+              {...register("email")}
+              className={`input input-bordered w-full ${
+                errors.email?.type && "input-error"
+              }`}
+            />
+          </div>
+
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Street:</span>
+            </label>
+            <input
+              {...register("address.street")}
+              className={`input input-bordered w-full ${
+                errors.address?.street?.type && "input-error"
+              }`}
+            />
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">City:</span>
+            </label>
+            <input
+              {...register("address.city")}
+              className={`input input-bordered w-full ${
+                errors.address?.city?.type && "input-error"
+              }`}
+            />
+          </div>
+
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">State:</span>
+            </label>
+            <input
+              {...register("address.state")}
+              className={`input input-bordered w-full ${
+                errors.address?.state?.type && "input-error"
+              }`}
+            />
+          </div>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Postal Code:</span>
+            </label>
+            <input
+              {...register("address.postalCode")}
+              className={`input input-bordered w-full ${
+                errors.address?.postalCode?.type && "input-error"
+              }`}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-3">
-          <input
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            type="text"
-            placeholder="Last Name"
-            className="input input-bordered w-full "
-          />
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            placeholder="Email"
-            className="input input-bordered w-full "
-          />
-          <input
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            type="text"
-            placeholder="City"
-            className="input input-bordered w-full "
-          />
-          <input
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            type="text"
-            placeholder="Postal Code"
-            className="input input-bordered w-full "
-          />
+
+        <div>
+          <button className="btn btn-error" onClick={handleModal} type="button">
+            Close
+          </button>
+          <button className="btn btn-primary" type="submit">
+            Add Customer
+          </button>
         </div>
-      </div>
-      <div>
-        <button className="btn btn-error" onClick={handleModal}>
-          Close
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            handleAddCustomer({
-              email,
-              firstName,
-              lastName,
-              phone,
-              status,
-              address: { city, country, postalCode, state, street },
-            })
-          }
-        >
-          Add Customer
-        </button>
-      </div>
+      </form>
     </div>
   );
 };
