@@ -3,13 +3,14 @@ import React, { FormEvent } from "react";
 import signIn from "@/firebase/auth/signin";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import googleSignIn from "@/firebase/auth/googlesignin";
 
 function Page() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
 
-  const handleForm = async (event: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { result, error } = await signIn(email, password);
@@ -22,6 +23,16 @@ function Page() {
     console.log(result);
     return router.push("/admin");
   };
+
+  const handleGoogleLogin = async () => {
+    const { result, error } = await googleSignIn();
+
+    if (error) {
+      return console.log(error);
+    }
+    console.log(result);
+    return router.push("/admin");
+  };
   return (
     <>
       <div className="flex h-[90vh]">
@@ -31,7 +42,7 @@ function Page() {
             <h1 className="text-2xl font-bold">Login into your account</h1>
             <p>Enter your Email below to Login into your account</p>
 
-            <form onSubmit={handleForm} className="w-full mt-2">
+            <form onSubmit={handleLogin} className="w-full mt-2">
               <div className="flex flex-col gap-4 w-full">
                 <input
                   type="email"
@@ -57,7 +68,7 @@ function Page() {
               </div>
             </form>
             <div className="divider uppercase">Or Continue with</div>
-            <button className="btn w-full">
+            <button className="btn w-full" onClick={handleGoogleLogin}>
               <FcGoogle />
               Google
             </button>
