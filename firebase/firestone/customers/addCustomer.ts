@@ -1,8 +1,9 @@
 import firebase_app from "@/firebase/config";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-type CustomerProps = {
-  name: string;
+export type CustomerProps = {
+  firstName: string;
+  lastName: string;
   email: string | null;
   phone: string | null;
   address: {
