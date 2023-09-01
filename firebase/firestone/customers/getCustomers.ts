@@ -1,8 +1,7 @@
-import firebase_app from "@/firebase/config";
+import { db } from "@/firebase/config";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { Customer } from "../types/dbTypes";
 
-const db = getFirestore(firebase_app);
 export default async function getCustomers() {
   let result = null;
   let error = null;

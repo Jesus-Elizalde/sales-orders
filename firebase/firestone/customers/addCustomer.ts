@@ -1,4 +1,4 @@
-import firebase_app from "@/firebase/config";
+import firebase_app, { db } from "@/firebase/config";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 export type AddCustomerProps = {
@@ -16,7 +16,6 @@ export type AddCustomerProps = {
   status: "active" | "inactive";
 };
 
-const db = getFirestore(firebase_app);
 export default async function addCustomerData(data: AddCustomerProps) {
   let result = null;
   let error = null;

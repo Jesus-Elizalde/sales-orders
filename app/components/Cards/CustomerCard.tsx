@@ -1,26 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AddCustomerModalBtn } from "..";
-import getCustomers from "@/firebase/firestone/customers/getCustomers";
 import { Customer } from "@/firebase/firestone/types/dbTypes";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection, getFirestore } from "firebase/firestore";
+import { db } from "@/firebase/config";
 
 const CustomerCard = () => {
-  const [customers, setCustomers] = useState<Customer[] | null>([]);
-  console.log(
-    "🚀 ~ file: CustomerCard.tsx:8 ~ CustomerCard ~ customers:",
-    customers
-  );
-  useEffect(() => {
-    getCustomerData();
-  }, []);
-
-  const getCustomerData = async () => {
-    const { result, error } = await getCustomers();
-    if (error) {
-      return console.log(error);
-    }
-    setCustomers(result);
-  };
+  const [value, loading, error] = useCollection(collection(db, "customers"), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
   return (
     <div className="bg-base-200 flex flex-col">
       <div className="flex items-center justify-between">
@@ -45,23 +34,26 @@ const CustomerCard = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            {customers?.map((customer) => (
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="font-bold">{customer.firstName}</div>
-                </td>
-                <td>{customer.phone}</td>
-                <td>{customer.email}</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-            ))}
+            {value?.docs.map((doc) => {
+              const customer = doc.data() as Customer;
+              return (
+                <tr key={customer.id}>
+                  <th>
+                    <label>
+                      <input type="checkbox" className="checkbox" />
+                    </label>
+                  </th>
+                  <td>
+                    <div className="font-bold">{customer.firstName}</div>
+                  </td>
+                  <td>{customer.phone}</td>
+                  <td>{customer.email}</td>
+                  <th>
+                    <button className="btn btn-ghost btn-xs">details</button>
+                  </th>
+                </tr>
+              );
+            })}
           </tbody>
           {/* foot */}
           <tfoot></tfoot>

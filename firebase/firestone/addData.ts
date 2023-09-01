@@ -1,4 +1,4 @@
-import firebase_app from "../config";
+import { db } from "../config";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 type Props = {
@@ -7,7 +7,6 @@ type Props = {
   data: any;
 };
 
-const db = getFirestore(firebase_app);
 export default async function addData({ colllection, id, data }: Props) {
   let result = null;
   let error = null;
