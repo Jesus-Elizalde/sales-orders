@@ -1,22 +1,8 @@
-import firebase_app, { db } from "@/firebase/config";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase/config";
+import { collection, addDoc } from "firebase/firestore";
+import { Customer } from "../types/dbTypes";
 
-export type AddCustomerProps = {
-  firstName: string;
-  lastName: string;
-  email: string | null;
-  phone: string | null;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-  } | null;
-  status: "active" | "inactive";
-};
-
-export default async function addCustomerData(data: AddCustomerProps) {
+export default async function addCustomerData(data: Customer) {
   let result = null;
   let error = null;
 

@@ -1,14 +1,21 @@
 import addCustomerData from "@/firebase/firestone/customers/addCustomer";
+import editCustomerData from "@/firebase/firestone/customers/editCustomer";
 import { Customer } from "@/firebase/firestone/types/dbTypes";
-import { error } from "console";
+import { error, log } from "console";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type AddCustomerFormProps = {
+type EditCustomerFormProps = {
   handleModal: () => void;
+  customerData: Customer;
+  customerId: string;
 };
 
-const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
+const EditCustomerForm = ({
+  handleModal,
+  customerData,
+  customerId,
+}: EditCustomerFormProps) => {
   const {
     register,
     handleSubmit,
@@ -16,10 +23,20 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
   } = useForm<Customer>();
 
   const onSubmit: SubmitHandler<Customer> = (data: Customer) =>
-    handleAddCustomer(data);
+    handleEditCustomer({ id: customerId, data });
 
-  const handleAddCustomer = async (data: Customer) => {
-    const { result, error } = await addCustomerData(data);
+  const handleEditCustomer = async ({
+    id,
+    data,
+  }: {
+    id: string;
+    data: Customer;
+  }) => {
+    console.log("handle sumbit", data, id);
+
+    const fullData = { ...data, id };
+
+    const { result, error } = await editCustomerData(fullData);
     if (error) {
       return console.log(error);
     }
@@ -28,8 +45,8 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
   };
   return (
     <div>
-      <h1>Add Customer</h1>
-      <p>Fill out the form below to add a new customer.</p>
+      <h1>Edit Customer</h1>
+      <p>Fill out the form below to edit customer.</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-2">
           <div className="form-control w-full max-w-xs">
@@ -40,6 +57,7 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               )}
             </label>
             <input
+              defaultValue={customerData.firstName}
               {...register("firstName", { required: true })}
               className={`input input-bordered w-full ${
                 errors.firstName?.type && "input-error"
@@ -54,6 +72,7 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               )}
             </label>
             <input
+              defaultValue={customerData.lastName}
               {...register("lastName", { required: true })}
               className={`input input-bordered w-full ${
                 errors.lastName?.type && "input-error"
@@ -66,6 +85,7 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               <span className="label-text">Phone:</span>
             </label>
             <input
+              defaultValue={customerData.phone || ""}
               {...register("phone")}
               className={`input input-bordered w-full ${
                 errors.phone?.type && "input-error"
@@ -77,6 +97,7 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               <span className="label-text">Email:</span>
             </label>
             <input
+              defaultValue={customerData.email || ""}
               {...register("email")}
               className={`input input-bordered w-full ${
                 errors.email?.type && "input-error"
@@ -89,6 +110,9 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               <span className="label-text">Street:</span>
             </label>
             <input
+              defaultValue={
+                customerData.address ? customerData.address.street : ""
+              }
               {...register("address.street")}
               className={`input input-bordered w-full ${
                 errors.address?.street?.type && "input-error"
@@ -100,6 +124,9 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               <span className="label-text">City:</span>
             </label>
             <input
+              defaultValue={
+                customerData.address ? customerData.address.city : ""
+              }
               {...register("address.city")}
               className={`input input-bordered w-full ${
                 errors.address?.city?.type && "input-error"
@@ -112,6 +139,9 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               <span className="label-text">State:</span>
             </label>
             <input
+              defaultValue={
+                customerData.address ? customerData.address.state : ""
+              }
               {...register("address.state")}
               className={`input input-bordered w-full ${
                 errors.address?.state?.type && "input-error"
@@ -123,6 +153,9 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
               <span className="label-text">Postal Code:</span>
             </label>
             <input
+              defaultValue={
+                customerData.address ? customerData.address.postalCode : ""
+              }
               {...register("address.postalCode")}
               className={`input input-bordered w-full ${
                 errors.address?.postalCode?.type && "input-error"
@@ -144,4 +177,4 @@ const AddCustomerForm = ({ handleModal }: AddCustomerFormProps) => {
   );
 };
 
-export default AddCustomerForm;
+export default EditCustomerForm;
